@@ -1,0 +1,51 @@
+cff-version: 1.2.0
+message: "If you use SynLoc, please cite both the paper and the archived dataset/code."
+title: "SynLoc: Viewpoint-Diverse Synthetic Urban Data with Covisibility Filtering for Few-Shot Visual Localization"
+type: dataset
+version: "1.0.0"
+date-released: "2026-06-08"
+doi: 10.5281/zenodo.20589296
+url: "https://github.com/Ledgero/VMBSDG"
+repository-code: "https://github.com/Ledgero/VMBSDG"
+license: MIT
+license-url: "https://opensource.org/licenses/MIT"
+authors:
+  - family-names: "Ou"
+    given-names: "Zhiquan"
+    affiliation: "School of Computer Science and Engineering, Southeast University, Nanjing, China; Key Laboratory of New Generation Artificial Intelligence Technology and Its Interdisciplinary Applications (Southeast University), Ministry of Education, Nanjing, China"
+    email: "ouzq@seu.edu.cn"
+  - family-names: "Xu"
+    given-names: "Cheng"
+    affiliation: "School of Computer Science and Engineering, Southeast University, Nanjing, China; Key Laboratory of New Generation Artificial Intelligence Technology and Its Interdisciplinary Applications (Southeast University), Ministry of Education, Nanjing, China"
+    email: "forever_xc@yeah.net"
+  - family-names: "Jiang"
+    given-names: "Wei"
+    affiliation: "Research and Development Department, China Unicom Digital Technology Co., Ltd., Beijing, China"
+    email: "jiangw32@chinaunicom.cn"
+  - family-names: "Song"
+    given-names: "Mofei"
+    affiliation: "School of Computer Science and Engineering, Southeast University, Nanjing, China; Key Laboratory of New Generation Artificial Intelligence Technology and Its Interdisciplinary Applications (Southeast University), Ministry of Education, Nanjing, China"
+    email: "songmf@seu.edu.cn"
+keywords:
+  - synthetic data generation
+  - visual localization
+  - feature matching
+  - sim-to-real transfer
+  - procedural urban modeling
+  - camera pose sampling
+  - covisibility filtering
+  - few-shot learning
+preferred-citation:
+  type: article
+  title: "SynLoc: Viewpoint-Diverse Synthetic Urban Data with Covisibility Filtering for Few-Shot Visual Localization"
+  authors:
+    - family-names: "Ou"
+      given-names: "Zhiquan"
+    - family-names: "Xu"
+      given-names: "Cheng"
+    - family-names: "Jiang"
+      given-names: "Wei"
+    - family-names: "Song"
+      given-names: "Mofei"
+  journal: "The Visual Computer"
+  year: 2026

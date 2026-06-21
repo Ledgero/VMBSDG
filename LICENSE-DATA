@@ -1,0 +1,43 @@
+SynLoc Dataset License
+=======================
+
+The SynLoc dataset (rendered images, depth maps, camera poses, intrinsics,
+covisibility annotations and accompanying split / metadata files) is
+released under the Creative Commons Attribution 4.0 International License
+(CC-BY-4.0).
+
+You are free to:
+  * Share  -- copy and redistribute the material in any medium or format.
+  * Adapt  -- remix, transform, and build upon the material for any
+              purpose, even commercially.
+
+Under the following terms:
+  * Attribution -- You must give appropriate credit, provide a link to
+    the license, and indicate if changes were made. You may do so in any
+    reasonable manner, but not in any way that suggests the licensor
+    endorses you or your use.
+
+Full legal code: https://creativecommons.org/licenses/by/4.0/legalcode
+Human-readable summary: https://creativecommons.org/licenses/by/4.0/
+
+Archived release (DOI): https://doi.org/10.5281/zenodo.20589296
+
+When citing the dataset, please use the entry in CITATION.cff or the
+following BibTeX:
+
+@dataset{synloc_2026,
+  author    = {Ou, Zhiquan and Xu, Cheng and Jiang, Wei and Song, Mofei},
+  title     = {SynLoc: Viewpoint-Diverse Synthetic Urban Data with Covisibility Filtering for Few-Shot Visual Localization},
+  year      = {2026},
+  publisher = {Zenodo},
+  version   = {1.0.0},
+  doi       = {10.5281/zenodo.20589296},
+  url       = {https://doi.org/10.5281/zenodo.20589296}
+}
+
+NOTE on third-party assets: This license covers ONLY the data items
+generated and authored by us (rendered RGB / depth, poses, intrinsics,
+covisibility metadata, splits, scripts). Third-party inputs (GIS data,
+textures, 3D assets, Unreal Engine, AirSim) retain their original
+licenses and are NOT redistributed in this release. See ASSETS.md for
+the full provenance and licensing of every third-party component.
