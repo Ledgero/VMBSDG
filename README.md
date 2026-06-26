@@ -96,7 +96,7 @@ Make sure you have downloaded the pre-trained weights (see [Pre-trained Weights]
 
 ### SynLoc
 
-Dataset link: [Baidu Netdisk](https://pan.baidu.com/s/1_2v912GbhjP0P7J-8GbcZg?pwd=pvjq) (提取码: pvjq)
+Dataset link: [Baidu Netdisk](https://pan.baidu.com/s/1_2v912GbhjP0P7J-8GbcZg?pwd=pvjq)
 
 ### MegaDepth
 
