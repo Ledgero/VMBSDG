@@ -1,0 +1,76 @@
+version  "1.0"
+seed     42
+units    metre
+
+attr subset            = "city"
+attr randomizeHeight   = true
+
+attr minFootprintArea  = 30.0
+attr simplifyTolerance = 0.5
+
+attr floorHeight_res   = 3.0
+attr floorHeight_com   = 4.0
+attr groundFloorHeight = 4.5
+
+attr floorsMin_town     = 1
+attr floorsMax_town     = 4
+attr floorsMin_district = 3
+attr floorsMax_district = 12
+attr floorsMin_city     = 5
+attr floorsMax_city     = 40
+
+attr wwr_res           = 0.30
+attr wwr_com           = 0.50
+attr windowTileWidth   = 2.5
+
+attr mix_town     = "residential:0.7, modern_commercial:0.2, landscape:0.1"
+attr mix_district = "residential:0.5, modern_commercial:0.4, landscape:0.1"
+attr mix_city     = "residential:0.3, modern_commercial:0.6, landscape:0.1"
+
+attr roofTypes = "flat, gable, hip"
+
+attr roadsFromGIS       = true
+attr vegetationEnabled  = true
+attr vegetationDensity  = 0.2
+attr roadWidthPrimary   = 12.0
+attr roadWidthSecondary = 8.0
+attr roadWidthLocal     = 5.0
+
+Lot -->
+    case geometry.area < minFootprintArea : NIL
+    else : simplify(simplifyTolerance) PickStyle
+
+PickStyle -->
+    case subset == "town"     : selectByWeight(mix_town)     Building
+    case subset == "district" : selectByWeight(mix_district) Building
+    else                      : selectByWeight(mix_city)     Building
+
+Building -->
+    set(nFloors, randInt(floorsMin(subset), floorsMax(subset)))
+    set(fh, floorHeight(style))
+    set(totalH, groundFloorHeight + (nFloors - 1) * fh)
+    extrude(totalH)
+    Mass
+
+Mass -->
+    comp(f){ top : Roof | side : Facade | bottom : NIL }
+
+Roof -->
+    case style == "modern_commercial" : flatRoof
+    case style == "residential"       : pickRoof(roofTypes)
+    else                              : flatRoof
+
+Facade -->
+    split(v){ groundFloorHeight : GroundFloor | ~fh* : UpperFloor }*
+
+GroundFloor --> Wall
+UpperFloor  -->
+    set(wwr, windowToWallRatio(style))
+    split(u){ ~windowTileWidth : WindowTile }*
+
+WindowTile -->
+    split(u){ '(1 - wwr) : Wall | 'wwr : Window }
+
+Wall    --> setMaterial("wall")
+Window  --> setMaterial("glass")
+flatRoof--> setMaterial("roof_flat")

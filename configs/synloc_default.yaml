@@ -1,0 +1,97 @@
+# SynLoc — default data-generation configuration (configs/synloc_default.yaml)
+
+meta:
+  name: SynLoc                                  # dataset name
+  version: "1.0"                                # release version
+  engine: "Unreal Engine 4 + AirSim"            # rendering / capture engine
+  length_unit: metre                            # length unit (metres)
+  camera_convention: opencv                     # camera frame: OpenCV (x right, y down, z forward)
+  euler_order: XYZ                              # Euler order (intrinsic roll, pitch, yaw)
+  pose_convention: world_to_camera              # pose definition: world-to-camera, P_c = T P_w
+  airsim_to_opencv:                             # fixed transform from AirSim native frame to OpenCV
+    rotation_diag: [1, -1, -1]                  # R_conv = diag(1, -1, -1)
+    axis_permutation: [z, x, y]                 # Unreal (X,Y,Z) -> OpenCV (z,x,y)
+
+scenes:
+  total_area_m2: 3.51e6                         # total covered area (~3.51 km^2)
+  total_images: 259000                          # total number of RGB images
+  total_admitted_pairs: 129500                  # total image pairs kept after filtering
+  subsets:
+    - id: city01                                # subset 1
+      level: town                               # town-level
+      scenes: 8                                 # number of scenes
+    - id: city02                                # subset 2
+      level: district                           # district-level
+      scenes: 64                                # number of scenes
+    - id: city03                                # subset 3
+      level: city                               # city-level
+      scenes: 202                               # number of scenes
+
+procedural_modeling:
+  gis_source: OpenStreetMap                     # GIS source for building/road layout
+  gis_license: ODbL                             # GIS data license
+  grammar: CGA                                  # procedural modeling grammar
+  cfg_rules_file: configs/cfg_rules.txt         # CFG modeling rules file
+  randomize_building_height: true               # randomize building heights for diversity
+  seed: 42                                      # modeling random seed
+
+camera:
+  hfov_deg: 90                                  # horizontal field of view
+  depth_clip_m: [0.1, 1000]                     # valid depth range (near/far clip)
+  sensor_noise: none                            # sensor noise (clean render)
+  resolutions:                                  # released image resolutions
+    - { width: 960, height: 540 }
+    - { width: 960, height: 960 }
+  default_resolution: { width: 960, height: 540 }   # default capture resolution
+  intrinsics:
+    focal_formula: "W / (2 * tan(HFOV/2))"      # focal length fx=fy derived from HFOV
+    principal_point_formula: "(W/2, H/2)"       # principal point at image center
+    shared_between_views: true                  # both views share the same intrinsics (k0 = k1)
+    precomputed:                                # precomputed intrinsics per resolution
+      "960x540": { fx: 480.0, fy: 480.0, cx: 480.0, cy: 270.0 }
+      "960x960": { fx: 480.0, fy: 480.0, cx: 480.0, cy: 480.0 }
+
+initial_pose:
+  grid_step_m: 20                               # horizontal spacing of the initial pose grid
+  height_range_m: [2, 80]                       # sampling height range
+  vertical_step_m: { min: 5, max: 20 }          # vertical step (grows adaptively with height)
+  euler_sampling:
+    base_angle_deg: [-90, 0, 90, 180]           # base view headings (four horizontal axes)
+    pitch_a_deg: 20                             # pitch sampling range U(-a, a)
+    roll_b_deg: 10                              # roll sampling range U(-b, b)
+    yaw_cap_c_deg: 90                           # yaw offset cap U(0, c)
+
+offset_pose:
+  default_strategy: wander                      # default offset-acquisition strategy
+  wander:                                       # Wander: walk-around-the-target capture
+    radius_m: [1, 5]                            # radial offset distance range
+    azimuth_deg: [0, 360]                       # azimuth sampling range
+    jitter_deg: [5, 30]                         # re-aim jitter range
+    step_length_m: 20                           # positional move step length
+  zoom:                                         # Zoom: stand-and-dolly-in capture
+    angle_interval_deg: 30                      # heading rotation step (360/angle full coverage)
+    forward_distance_m: [1, 10]                 # forward move distance range along the view ray
+    pitch_a_deg: 20                             # pitch sampling range U(-a, a)
+
+covisibility_filter:
+  tau_max: 0.1                                  # lower bound on the larger directional overlap
+  tau_min: 0.02                                 # lower bound on the smaller directional overlap
+  rho: 10                                       # upper bound on overlap ratio O_max/O_min
+  exclude_sky: true                             # exclude sky regions in overlap computation
+  sky_via_zero_depth: true                      # detect sky pixels via zero depth
+  bidirectional: true                           # compute both directional overlaps O_{0->1}, O_{1->0}
+
+output:
+  root_dir: ./SynLoc                            # output root directory
+  rgb_format: png                               # RGB image format
+  depth_format: npy                             # depth map format
+  depth_dtype: float32                          # depth data type
+  pose_format: json                             # pose / intrinsics storage format
+  pose_matrix: 4x4_world_to_camera              # pose matrix form (4x4 world-to-camera)
+  pair_list_records_overlap: true               # pair list records both directional overlaps
+  collect_as_pairs: true                        # collect data in image pairs
+
+license:
+  dataset: CC-BY-4.0                            # dataset license
+  code: MIT                                     # code license
+  gis: ODbL                                     # GIS data license
